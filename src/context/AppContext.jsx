@@ -6,7 +6,7 @@ const AppContext = createContext();
 
 // 2. Создаем провайдер
 export const AppProvider = ({ children }) => {
-    const [stage, setStage] = useState(CAPTCHA_1);
+    const [stage, setStage] = useState(SCAN_FACE);
 
     // Функция для обновления состояния
     const updateStage = () => {

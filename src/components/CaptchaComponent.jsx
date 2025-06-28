@@ -1,12 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/CaptchaComponent.css';
+import { useAppContext } from '../context/AppContext';
 
-const CaptchaComponent = () => {
-    const captchaImage = 'https://avatars.mds.yandex.net/i?id=76b79e3f4b27908effcc797911f4efd3c5adfe9b-5296066-images-thumbs&n=13';
+const CaptchaComponent = ({ captchaImage, item, correctTiles }) => {
 
     const [selectedTiles, setSelectedTiles] = useState([]);
-
-    const correctTiles = useMemo(() => [0, 1, 2, 3, 4, 5], []);
+    const { updateStage } = useAppContext();
 
     const getPosition = (index) => {
         let x, y;
@@ -68,16 +67,20 @@ const CaptchaComponent = () => {
     useEffect(
         () => {
             if (JSON.stringify(correctTiles.sort()) === JSON.stringify(selectedTiles.sort())) {
-                alert('SOLVED');
+                setTimeout(
+                    () => {
+                        updateStage();
+                    }, 1000
+                );
             }
-        }, [selectedTiles, correctTiles]
+        }, [selectedTiles, correctTiles, updateStage]
     );
 
     return (
         <div className="captcha-container">
             <div className="captcha-header">
                 <p>Отметьте все квадраты, где изображены</p>
-                <h2>машины</h2>
+                <h2>{item}</h2>
                 <p>Если элементов нет, нажмите "Пропустить"</p>
             </div>
 
@@ -86,7 +89,7 @@ const CaptchaComponent = () => {
                     {Array(9).fill(0).map((_, index) => (
                         <div
                             key={index}
-                            className={`tile ${selectedTiles.includes(index) ? 'selected' : ''} ${correctTiles.includes(index) ? 'right': 'wrong'}`}
+                            className={`tile ${selectedTiles.includes(index) ? 'selected' : ''} ${correctTiles.includes(index) ? 'right' : 'wrong'}`}
                             style={getTileStyle(index)}
                             onClick={() => toggleTile(index)}
                         />

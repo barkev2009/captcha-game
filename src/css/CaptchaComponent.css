@@ -58,6 +58,21 @@
     border: 3px solid #15ff00 !important;
     box-shadow: 0 0 10px rgb(21, 167, 2);
     z-index: 1;
+    position: relative;
+}
+
+.tile.selected.right::after {
+    content: '✓';
+    position: absolute;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #15ff00;
+    bottom: 5px;
+    right: 5px;
 }
 
 .tile.selected.wrong {
