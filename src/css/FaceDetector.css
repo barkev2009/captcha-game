@@ -1,0 +1,19 @@
+video {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+}
+
+.video-container {
+    position: relative;
+    width: fit-content;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 640px;
+    pointer-events: none;
+}
