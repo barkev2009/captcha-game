@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext } from 'react';
-import { CAPTCHA_1, nextStage, SCAN_FACE } from '../const';
+import React, { createContext, useState, useContext, useRef, useEffect, useCallback } from 'react';
+import { CAPTCHA_1, CAPTCHA_TEXT, CHECKS_TERMS, nextStage, SCAN_FACE } from '../const';
 
 // 1. Создаем контекст
 const AppContext = createContext();
@@ -7,14 +7,31 @@ const AppContext = createContext();
 // 2. Создаем провайдер
 export const AppProvider = ({ children }) => {
     const [stage, setStage] = useState(SCAN_FACE);
+    const [timer, setTimer] = useState(0);
+    const timerRef = useRef(null);
 
-    // Функция для обновления состояния
-    const updateStage = () => {
+    const updateStage = useCallback(() => {
         setStage(prev => nextStage(prev));
-    };
+    }, []); // Никаких зависимостей, так как функция не зависит от внешних значений
+
+    const startTimer = useCallback(() => {
+        const startTime = Date.now();
+        timerRef.current = setInterval(() => {
+            const elapsedTime = (Date.now() - startTime) / 1000;
+            setTimer(parseFloat(elapsedTime.toFixed(2)));
+        }, 10);
+    }, []);
+
+    const stopTimer = useCallback(() => {
+        clearInterval(timerRef.current);
+    }, []);
+
+    useEffect(() => {
+        return () => clearInterval(timerRef.current);
+    }, []);
 
     return (
-        <AppContext.Provider value={{ stage, updateStage }}>
+        <AppContext.Provider value={{ stage, updateStage, timer, startTimer, stopTimer }}>
             {children}
         </AppContext.Provider>
     );

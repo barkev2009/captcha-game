@@ -61,19 +61,17 @@ const CaptchaComponent = ({ captchaImage, item, correctTiles }) => {
     };
 
     const skipCaptcha = () => {
-        alert('Капча пропущена. Возможно, будут ограничения.');
+        if (correctTiles.length === 0) {
+            updateStage();
+        }
     };
 
     useEffect(
         () => {
-            if (JSON.stringify(correctTiles.sort()) === JSON.stringify(selectedTiles.sort())) {
-                setTimeout(
-                    () => {
-                        updateStage();
-                    }, 1000
-                );
+            if (selectedTiles.length === correctTiles.length && selectedTiles.every(tile => correctTiles.includes(tile)) && [...correctTiles].length !== 0) {
+                updateStage();
             }
-        }, [selectedTiles, correctTiles, updateStage]
+        }, [selectedTiles, correctTiles]
     );
 
     return (

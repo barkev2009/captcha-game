@@ -11,7 +11,7 @@ const ScanFace = () => {
     const [faceDetected, setFaceDetected] = useState(false);
     const [progress, setProgress] = useState(0);
     const progressInterval = useRef(null);
-    const {updateStage} = useAppContext();
+    const { updateStage } = useAppContext();
 
     useEffect(
         () => {
@@ -66,7 +66,7 @@ const ScanFace = () => {
 
                     const faceCenterX = x + width / 2;
                     const faceCenterY = y + height / 2;
-                    
+
                     if (
                         faceCenterX > scanArea.x &&
                         faceCenterX < scanArea.x + scanArea.width &&
@@ -130,29 +130,30 @@ const ScanFace = () => {
         <div className="video-container">
             <div className="progress-header">Сканируем лицо...</div>
             <div className="progress-container">
-                <div 
-                    className="progress-bar" 
+                <div
+                    className="progress-bar"
                     style={{ width: `${progress}%` }}
                 ></div>
                 <div className="progress-text">{progress}%</div>
             </div>
-            
+
             <Webcam
                 ref={webcamRef}
                 audio={false}
                 screenshotFormat="image/jpeg"
-                videoConstraints={{ 
+                videoConstraints={{
                     facingMode: "user",
                     width: window.innerWidth,
                     height: window.innerHeight
                 }}
             />
             <canvas
+                className="frame"
                 ref={canvasRef}
                 width={window.innerWidth}
                 height={window.innerHeight}
             />
-            
+
             <div className="scan-frame">
                 <div className="corner top-left"></div>
                 <div className="corner top-right"></div>

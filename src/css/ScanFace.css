@@ -17,7 +17,7 @@ video {
     object-fit: cover;
 }
 
-canvas {
+canvas.frame {
     position: absolute;
     top: 0;
     left: 0;
