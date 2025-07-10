@@ -36,7 +36,7 @@ const RandomKeyboard = ({ onKeyPress }) => {
             // Обычный символ
             onKeyPress({
                 type: 'char',
-                value: key === ' ' ? ' ' : key.toLowerCase()
+                value: key === ' ' ? ' ' : key
             });
         }
     };

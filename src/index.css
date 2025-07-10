@@ -6,3 +6,32 @@
 body {
     margin: 0;
 }
+
+.timer-window {
+    /* position: absolute; */
+    background: #0074da;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    padding: 10px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.timer-window.absolute {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.timer-window .time {
+    font-family: monospace;
+    /* Моноширинный шрифт */
+    min-width: 100px;
+    /* Фиксированная минимальная ширина */
+    display: inline-block;
+    text-align: center;
+}

@@ -12,6 +12,7 @@ const ScanFace = () => {
     const [progress, setProgress] = useState(0);
     const progressInterval = useRef(null);
     const { updateStage } = useAppContext();
+    const {timer, formatTime} = useAppContext();
 
     useEffect(
         () => {
@@ -128,6 +129,10 @@ const ScanFace = () => {
 
     return (
         <div className="video-container">
+            <div className='timer-window absolute'>
+                <div>У вас осталось:</div>
+                <div className="time">{formatTime(timer)}</div>
+            </div>
             <div className="progress-header">Сканируем лицо...</div>
             <div className="progress-container">
                 <div

@@ -19,3 +19,5 @@ export const STAGES = [
 export const nextStage = (currentStage) => {
     return STAGES.indexOf(currentStage) + 1 < STAGES.length ? STAGES[STAGES.indexOf(currentStage) + 1] : currentStage
 }
+
+export const TIMER_LIMIT = 70;

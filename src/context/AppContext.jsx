@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useRef, useEffect, useCallback } from 'react';
-import { CAPTCHA_1, CAPTCHA_TEXT, CHECKS_TERMS, nextStage, SCAN_FACE } from '../const';
+import { CAPTCHA_1, CAPTCHA_TEXT, CHECKS_TERMS, nextStage, SCAN_FACE, TIMER_LIMIT } from '../const';
 
 // 1. Создаем контекст
 const AppContext = createContext();
@@ -19,19 +19,25 @@ export const AppProvider = ({ children }) => {
         timerRef.current = setInterval(() => {
             const elapsedTime = (Date.now() - startTime) / 1000;
             setTimer(parseFloat(elapsedTime.toFixed(2)));
-        }, 10);
+        }, 100);
     }, []);
 
     const stopTimer = useCallback(() => {
         clearInterval(timerRef.current);
     }, []);
 
+    const formatTime = (time) => {
+        const remaining = TIMER_LIMIT - time;
+        const seconds = (remaining).toFixed(2);
+        return `${seconds.padStart(5, '0')}`;
+    };
+
     useEffect(() => {
         return () => clearInterval(timerRef.current);
     }, []);
 
     return (
-        <AppContext.Provider value={{ stage, updateStage, timer, startTimer, stopTimer }}>
+        <AppContext.Provider value={{ stage, updateStage, timer, startTimer, stopTimer, formatTime, timerRef }}>
             {children}
         </AppContext.Provider>
     );

@@ -2,10 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../css/CaptchaText.css';
 import { useAppContext } from '../context/AppContext';
 import RandomKeyboard from '../components/RandomKeyboard';
+import VideoPlayer from '../components/VideoPlayer';
 
 const CaptchaText = () => {
     const canvasRef = useRef(null);
+    const popupRef = useRef(null);
     const [captchaText, setCaptchaText] = useState('');
+    const [isVideo, setIsVideo] = useState(false);
     const [userInput, setUserInput] = useState('');
     const [isValid, setIsValid] = useState(null);
     const { updateStage } = useAppContext();
@@ -80,6 +83,8 @@ const CaptchaText = () => {
     // Первичная отрисовка
     useEffect(() => {
         drawCaptcha();
+        const t = setTimeout(() => popupRef.current.style.display = 'block', 5000);
+        return () => clearTimeout(t)
     }, []);
 
     const handleSubmit = () => {
@@ -105,8 +110,32 @@ const CaptchaText = () => {
         }
     };
 
+    const handleCloseVideo = () => {
+        setIsVideo(false);
+        setTimeout(
+            () => handleRefresh(), 100
+        );
+    }
+
+    const handleClosePopup = () => {
+        popupRef.current.style.display = 'none';
+        setIsVideo(true);
+    }
+
+    if (isVideo) {
+        return (<VideoPlayer onClose={handleCloseVideo} />)
+    }
+
     return (
         <div className="captcha-container">
+            <div className="popup-ad" ref={popupRef}>
+                <button className='popup-ad-close' onClick={handleClosePopup}>
+                    ×
+                </button>
+                <div className="popup-content">
+                    <p>ВЫ ВЫИГРАЛИ 100 000 РУБЛЕЙ!</p>
+                </div>
+            </div>
             <div className="captcha-header">
                 <p>Напоследок)</p>
                 <h2>Подтвердите, что вы не робот</h2>

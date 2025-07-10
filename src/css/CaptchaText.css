@@ -54,9 +54,21 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
 }
 
 .error-message {
@@ -71,4 +83,34 @@
 
 .skip-button.verified:hover {
   background-color: #388e3c;
+}
+
+.popup-ad {
+  position: absolute;
+  background: #ddd;
+  width: 80%;
+  height: 90%;
+  top: 5%;
+  left: 10%;
+  border-radius: 10px;
+  display: none;
+}
+
+.popup-ad-close {
+  position: absolute;
+  right: 0;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+}
+
+.popup-content {
+  margin: 20px;
+  padding: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  color: #388e3c;
+  background-color: white;
+  height: 93%;
 }
