@@ -10,12 +10,15 @@ import ChecksTerms from "./screens/ChecksTerms";
 import Final from "./screens/Final";
 import CaptchaText from "./screens/CaptchaText";
 import Loser from "./screens/Loser";
+import { WebSocketProvider } from "./context/WebSocketContext";
 
 function AppWrapper() {
   return (
-    <AppProvider>
-      <App />
-    </AppProvider>
+    <WebSocketProvider url={process.env.REACT_APP_WEBSOCKET}>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </WebSocketProvider>
   );
 }
 

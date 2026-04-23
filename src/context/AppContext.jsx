@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useRef, useEffect, useCallback } from 'react';
 import { CAPTCHA_1, CAPTCHA_TEXT, CHECKS_TERMS, nextStage, SCAN_FACE, TIMER_LIMIT } from '../const';
+import { useWebSocket } from './WebSocketContext';
 
 // 1. Создаем контекст
 const AppContext = createContext();
@@ -9,10 +10,18 @@ export const AppProvider = ({ children }) => {
     const [stage, setStage] = useState(SCAN_FACE);
     const [timer, setTimer] = useState(0);
     const timerRef = useRef(null);
+    const { send } = useWebSocket();
 
     const updateStage = useCallback(() => {
-        setStage(prev => nextStage(prev));
-    }, []); // Никаких зависимостей, так как функция не зависит от внешних значений
+        const newStage = nextStage(stage);
+        send({
+            type: 'CAPTCHA_ACTION',
+            payload: { message: `Stage changed from ${stage} to ${newStage}` },
+            timestamp: Date.now(),
+            origin: 'captcha-game'
+        });
+        setStage(newStage);
+    }, [stage, send]); // Никаких зависимостей, так как функция не зависит от внешних значений
 
     const startTimer = useCallback(() => {
         const startTime = Date.now();

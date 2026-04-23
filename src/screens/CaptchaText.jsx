@@ -91,7 +91,8 @@ const CaptchaText = () => {
         const correct = userInput.toUpperCase() === captchaText;
         setIsValid(correct);
         if (correct) {
-            updateStage();
+            // updateStage();
+            window.location.pathname = '/library'
         }
     };
 

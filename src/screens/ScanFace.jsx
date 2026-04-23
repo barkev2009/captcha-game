@@ -4,6 +4,7 @@ import { FaceDetection } from "@mediapipe/face_detection";
 import { Camera } from "@mediapipe/camera_utils";
 import '../css/ScanFace.css'
 import { useAppContext } from "../context/AppContext";
+import { useWebSocket } from "../context/WebSocketContext";
 
 const ScanFace = () => {
     const webcamRef = useRef(null);
@@ -11,8 +12,8 @@ const ScanFace = () => {
     const [faceDetected, setFaceDetected] = useState(false);
     const [progress, setProgress] = useState(0);
     const progressInterval = useRef(null);
-    const { updateStage } = useAppContext();
-    const {timer, formatTime} = useAppContext();
+    const { updateStage, timer, formatTime } = useAppContext();
+    const { send } = useWebSocket();
 
     useEffect(
         () => {
@@ -27,6 +28,12 @@ const ScanFace = () => {
     );
 
     useEffect(() => {
+        send({
+            type: 'CAPTCHA_ACTION',
+            payload: { message: `SCAN_FACE SCREEN` },
+            timestamp: Date.now(),
+            origin: 'captcha-game'
+        });
         const faceDetection = new FaceDetection({
             locateFile: (file) =>
                 `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`,
